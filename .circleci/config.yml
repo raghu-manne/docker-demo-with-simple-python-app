@@ -1,9 +1,19 @@
 version: 2
+workflows:
+  docker_build_push:
+    jobs:
+      - build:
+          context: trail # has an env var called MY_ENV_VAR
+
+
 jobs:
   build:
     working_directory: /app
     docker:
       - image: docker:17.05.0-ce-git
+        auth:
+            username: raghumanne
+            password: $DOCKERHUB_PASSWORD
     steps:
       - checkout
       - setup_remote_docker

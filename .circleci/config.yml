@@ -15,4 +15,4 @@ jobs:
           command: |
             ls -al
             echo '^^^The files in your repo^^^'
-            cat DOckerfile
+            cat Dockerfile

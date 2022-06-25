@@ -10,10 +10,11 @@ jobs:
   build:
     working_directory: /app
     docker:
-      - image: docker:17.05.0-ce-git
+      - image: cimg/base:2021.11
         auth:
             username: raghumanne
             password: $DOCKERHUB_PASSWORD
+  push:          
     steps:
       - checkout
       - setup_remote_docker

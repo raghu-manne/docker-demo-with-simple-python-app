@@ -1,59 +1,17 @@
-version: 2.1
+version: 2
 jobs:
-  # running commands on a basic image
-  Hello-World:
+  build:
+    working_directory: /app
     docker:
-      - image: alpine:3.15
-    steps:
-      - run:
-          name: Saying Hello
-          command: |
-            echo 'Hello World!'
-            echo 'This is the delivery pipeline'
-  # fetching code from the repo
-  Fetch-Code:
-    docker:
-      - image: cimg/base:2021.04
+      - image: docker:17.05.0-ce-git
     steps:
       - checkout
+      - setup_remote_docker
       - run:
-          name: Getting the Code
+          name: Build application Docker image
           command: |
-            ls -al
-            echo '^^^Your repo files^^^'
-  # running a node container
-  Using-Node:
-    docker:
-      - image: cimg/node:17.2
-    steps:
+            docker build --cache-from=app -t app .
       - run:
-          name: Running the Node Container
+          name: Listing docker images
           command: |
-            node -v
-  Now-Complete:
-    docker:
-      - image: alpine:3.15
-    steps:
-      - run:
-          name: Approval Complete
-          command: |
-            echo 'The work is now complete.'
-
-workflows:
-  Example-Workflow:
-    jobs:
-      - Hello-World
-      - Fetch-Code:
-          requires:
-            - Hello-World
-      - Using-Node:
-          requires:
-            - Fetch-Code
-      - Hold-for-Approval:
-          type: approval
-          requires:
-            - Using-Node
-            - Fetch-Code
-      - Now-Complete:
-          requires:
-            - Hold-for-Approval
+            docker images

@@ -14,6 +14,11 @@ jobs:
         auth:
             username: raghumanne
             password: $DOCKERHUB_PASSWORD
+    steps: 
+      - run:
+          name: list
+          command: |
+            docker images
   push: 
     docker:
       - image: docker:17.05.0-ce-git          

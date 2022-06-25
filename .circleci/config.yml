@@ -14,7 +14,9 @@ jobs:
         auth:
             username: raghumanne
             password: $DOCKERHUB_PASSWORD
-  push:          
+  push: 
+    docker:
+      - image: docker:17.05.0-ce-git          
     steps:
       - checkout
       - setup_remote_docker
